@@ -3,6 +3,8 @@ import "./Dashboard.css";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
+import { Link } from "react-router-dom";
+
 
 const Dashboard = () => {
     // Dummy chart data
@@ -26,9 +28,22 @@ const Dashboard = () => {
 
             <div className="dashboard-grid">
                 {/* Chart Card */}
-                <div className="dashboard-card">
+                <div className="dashboard-card chart-card">
                     <h3>Your Financial Breakdown</h3>
-                    <Pie data={data} />
+                    <div className="chart-wrapper">
+                        <Pie
+                            data={data}
+                            options={{
+                                responsive: true,
+                                maintainAspectRatio: false, // keep chart responsive within wrapper
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: { enabled: false },
+                                },
+                            }}
+                        />
+                    </div>
+
                     <ul className="chart-legend">
                         <li><span className="color taxes"></span>Taxes</li>
                         <li><span className="color expenses"></span>Expenses</li>
@@ -36,6 +51,7 @@ const Dashboard = () => {
                         <li><span className="color remaining"></span>Remaining</li>
                     </ul>
                 </div>
+
 
                 {/* Summary Card */}
                 <div className="dashboard-card">
@@ -64,6 +80,14 @@ const Dashboard = () => {
                         “Automate your savings — even $25 a week adds up to $1,300 a year!
                         Consistency builds wealth over time.”
                     </p>
+                </div>
+
+                <div className="dashboard-card">
+                    <h3>🍎 Food Security Indicator</h3>
+                    <p>Based on your current budget, you may qualify for campus food assistance.</p>
+                    <Link to="https://www.bmcc.cuny.edu/student-affairs/panther-pantry/" target="_blank">
+                        Access BMCC Panther Pantry
+                    </Link>
                 </div>
             </div>
         </div>
