@@ -1,0 +1,192 @@
+/* --- Home.css --- */
+
+/* GENERAL PAGE STYLES */
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: linear-gradient(to bottom, #f0f7ff, #ffffff);
+    margin: 0;
+    color: #333;
+}
+
+section {
+    scroll-margin-top: 80px;
+}
+
+/* NAVBAR */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav h1 {
+    color: #1e40af;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    margin-left: 20px;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: #1d4ed8;
+}
+
+/* HERO SECTION */
+.hero {
+    text-align: center;
+    padding: 100px 20px 80px;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    color: #1e3a8a;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    max-width: 650px;
+    margin: 0 auto 30px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.hero a {
+    background: #1e40af;
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.hero a:hover {
+    background: #1e3a8a;
+    transform: scale(1.02);
+}
+
+/* FEATURE CARDS */
+.features {
+    background: #eff6ff;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.features h3 {
+    font-size: 2rem;
+    color: #1e3a8a;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.feature-grid {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h4 {
+    color: #1e40af;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #555;
+}
+
+/* HOW IT WORKS */
+.how {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.how h3 {
+    font-size: 2rem;
+    color: #1e3a8a;
+    margin-bottom: 40px;
+}
+
+.how-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.step {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 25px;
+    transition: transform 0.15s;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+}
+
+.step-number {
+    background: #1e40af;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    margin: 0 auto 10px;
+}
+
+.step h5 {
+    color: #1e40af;
+    margin-bottom: 10px;
+}
+
+/* DISCLAIMER */
+#disclaimer {
+    background: #1e3a8a;
+    color: white;
+    padding: 30px 20px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+#disclaimer strong {
+    color: #facc15;
+}
+
+/* FOOTER */
+footer {
+    background: #f1f5f9;
+    color: #555;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.85rem;
+}
