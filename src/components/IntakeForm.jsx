@@ -23,24 +23,30 @@ const IntakeForm = () => {
         setLoading(true);
 
         try {
+            const prompt = `
+      A student reported these financial details:
+      - Monthly income: $${formData.income}
+      - Monthly expenses: $${formData.expenses}
+      - Total debt: $${formData.debts}
+      - Savings: $${formData.savings}
+      - Main goal: ${formData.goal}
+
+      Generate a short educational budget summary with 3 practical tips.
+      Keep it encouraging and easy to read for college students.
+    `;
+
             // If your teammate's endpoint is ready, replace this URL:
-            const res = await fetch("https://your-openai-endpoint.com/analyze", {
+            const res = await fetch("http://localhost:8080/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({ prompt }),
             });
 
             const data = await res.json();
-            setResult(data.message || JSON.stringify(data));
+            setResult(data.answer || "No response from AI 😅");
         } catch (error) {
-            // Mocked AI response for demo
-            setResult(
-                "📊 Based on your inputs, here’s an educational summary:\n\n" +
-                "• Consider building a small emergency fund.\n" +
-                "• Reduce variable spending by 10%.\n" +
-                "• Pay off high-interest debt first.\n\n" +
-                "💡 This information is for educational purposes only and not financial advice."
-            );
+            console.error("Error calling AI endpoint:", error);
+            setResult("Could not connect to AI. Please try again later.");
         }
 
         setLoading(false);
