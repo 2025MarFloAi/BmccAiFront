@@ -1,56 +1,70 @@
 import React from "react";
 import "./Home.css";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       {/* Navbar */}
       <nav>
         <h1>MoneyMate EDU</h1>
         <div>
+          <Link to="/dashboard" className="cta-secondary">Preview Dashboard</Link>
+
           <a href="#features">Features</a>
           <a href="#how">How It Works</a>
           <a href="#disclaimer">Disclaimer</a>
-          <Link to="/intake" className="cta-button">Get Started</Link>
-
+          <Link to="/intake" className="cta-button">
+            Launch AI Budgeting Tool
+          </Link>
         </div>
       </nav>
 
       {/* Hero Section */}
       <section className="hero">
-        <h2>Learn. Plan. Grow. Your Financial Journey Starts Here.</h2>
+
+        <h2>Start Your AI Budgeting Journey</h2>
         <p>
-          MoneyMate EDU helps students understand budgeting, saving, and
-          investing through personalized AI-powered tools designed to build
-          lifelong financial confidence.
+          Let MoneyMate EDU help you understand your finances — analyze income,
+          taxes, and expenses with the power of AI.
         </p>
-        <a href="#intake">Get Started</a>
+        <Link to="/intake" className="cta-button">
+          Launch AI Budgeting Tool
+        </Link>
       </section>
 
       {/* Features Section */}
       <section id="features" className="features">
-        <h3>What You’ll Find Inside</h3>
+        <h3>Explore Our AI Tools</h3>
+        <p className="subtext">
+          Start with the AI Budgeting Tool to get a personalized financial analysis.
+        </p>
+
         <div className="feature-grid">
-          <div className="feature-card">
-            <h4>AI Budgeting Tool</h4>
+          <div
+            className="feature-card clickable"
+            onClick={() => navigate("/intake")}
+          >
+            <h4>🪙 AI Budgeting Tool</h4>
             <p>
               Get a personalized example budget that fits your student lifestyle
-              and financial goals.
+              and financial goals. Visualize taxes, expenses, and savings — all
+              explained through AI.
             </p>
           </div>
 
           <div className="feature-card">
-            <h4>Financial Literacy Chatbot</h4>
+            <h4>💬 Financial Literacy Chatbot</h4>
             <p>
-              Ask any question—APR, investing, saving—and get simple,
-              educational explanations.
+              Ask any question — APR, investing, saving — and get clear,
+              educational explanations powered by AI.
             </p>
           </div>
 
           <div className="feature-card">
-            <h4>Financial Help Dashboard</h4>
+            <h4>📊 Financial Help Dashboard</h4>
             <p>
               Track your goals, visualize progress, and access
               student-friendly financial resources.
@@ -67,7 +81,7 @@ const Home = () => {
             <div className="step-number">1</div>
             <h5>Tell Us About You</h5>
             <p>
-              Fill a quick intake form with your income, expenses, and goals.
+              Fill out a quick intake form with your income, expenses, and goals.
             </p>
           </div>
 
@@ -75,8 +89,7 @@ const Home = () => {
             <div className="step-number">2</div>
             <h5>AI Analysis</h5>
             <p>
-              Our model builds an example budget and suggests educational next
-              steps.
+              Our model builds an example budget and suggests educational next steps.
             </p>
           </div>
 
@@ -84,7 +97,7 @@ const Home = () => {
             <div className="step-number">3</div>
             <h5>Learn & Improve</h5>
             <p>
-              Chat with the bot, explore lessons, and track your progress.
+              Review your breakdown, read AI tips, and plan smarter for the future.
             </p>
           </div>
         </div>
@@ -102,7 +115,8 @@ const Home = () => {
 
       {/* Footer */}
       <footer>
-        © {new Date().getFullYear()} MoneyMate EDU • Built with ❤️ using OpenAI technology
+        © {new Date().getFullYear()} MoneyMate EDU • Built with ❤️ using OpenAI
+        technology
       </footer>
     </div>
   );

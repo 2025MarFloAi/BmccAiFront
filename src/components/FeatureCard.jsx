@@ -1,9 +1,15 @@
 import React from "react";
+import "./FutureCard.css"
 
 const FeatureCard = ({ title, text }) => (
-    <div className="bg-white p-6 rounded-2xl shadow hover:shadow-md transition">
-        <h4 className="text-xl font-semibold text-blue-700 mb-3">{title}</h4>
-        <p className="text-gray-600">{text}</p>
+    <div
+        className="feature-card clickable"
+        onClick={() => navigate("/intake")}
+    >
+        <h4>AI Budgeting Tool</h4>
+        <p>
+            Get a personalized example budget that fits your student lifestyle and financial goals.
+        </p>
     </div>
 );
 
