@@ -30,24 +30,26 @@ const ChatWidget = () => {
     setLoading(true);
 
     try {
-      console.log("Sending message to:", `${API_URL}/api/chat`);
+      console.log("Sending message to:", `${API_URL}/api/chatting`);
       console.log("Message payload:", { prompt: userMessage });
-      
+
       const response = await axios.post(
-        `${API_URL}/api/chat`,
+        `${API_URL}/api/chatting`,
         { prompt: userMessage },
-        { 
+        {
           withCredentials: true,
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
 
       console.log("Response received:", response.data);
 
       // Add AI response to chat
-      const aiMessage = response.data.answer || "I received your message but couldn't generate a response.";
+      const aiMessage =
+        response.data.answer ||
+        "I received your message but couldn't generate a response.";
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: aiMessage, id: response.data.id },
@@ -57,18 +59,23 @@ const ChatWidget = () => {
         message: error.message,
         response: error.response?.data,
         status: error.response?.status,
-        url: `${API_URL}/api/chat`
+        url: `${API_URL}/api/chatting`,
       });
-      
-      let errorMessage = "Sorry, there was an error connecting to the chat service. Please try again.";
-      
+
+      let errorMessage =
+        "Sorry, there was an error connecting to the chat service. Please try again.";
+
       if (error.response) {
         // Server responded with error status
         if (error.response.status === 404) {
-          errorMessage = "Chat service endpoint not found. Please check if the backend is running.";
+          errorMessage =
+            "Chat service endpoint not found. Please check if the backend is running.";
         } else if (error.response.status === 500) {
           errorMessage = "Server error. Please try again in a moment.";
-        } else if (error.response.status === 401 || error.response.status === 403) {
+        } else if (
+          error.response.status === 401 ||
+          error.response.status === 403
+        ) {
           errorMessage = "Authentication required. Please log in first.";
         } else if (error.response.data?.error) {
           errorMessage = `Error: ${error.response.data.error}`;
@@ -77,7 +84,7 @@ const ChatWidget = () => {
         // Request made but no response
         errorMessage = `Cannot connect to chat service at ${API_URL}. Is the backend running?`;
       }
-      
+
       setMessages((prev) => [
         ...prev,
         {
