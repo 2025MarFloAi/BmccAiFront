@@ -1,5 +1,7 @@
 import React from "react";
 import "./Home.css";
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
   return (
@@ -11,6 +13,8 @@ const Home = () => {
           <a href="#features">Features</a>
           <a href="#how">How It Works</a>
           <a href="#disclaimer">Disclaimer</a>
+          <Link to="/intake" className="cta-button">Get Started</Link>
+
         </div>
       </nav>
 
