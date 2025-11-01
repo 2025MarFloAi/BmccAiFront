@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import IntakeForm from "./components/IntakeForm";
+import ChatWidget from "./components/ChatWidget";
 import { Link } from "react-router-dom";
 
 
@@ -73,6 +74,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      <ChatWidget />
     </div>
   );
 };
