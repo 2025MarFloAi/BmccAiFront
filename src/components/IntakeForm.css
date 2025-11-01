@@ -1,40 +1,54 @@
+/* ====== GENERAL LAYOUT ====== */
+body {
+    background: linear-gradient(to bottom, #f0f7ff, #ffffff);
+    font-family: "Inter", sans-serif;
+}
+
 .intake-container {
-    max-width: 600px;
-    margin: 60px auto;
+    max-width: 900px;
+    margin: 50px auto;
     background: #ffffff;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    text-align: center;
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
 }
 
 .intake-container h2 {
     color: #1e3a8a;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .intake-container p {
     color: #555;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
+/* ====== FORM SECTION ====== */
 form {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-wrap: wrap;
+    gap: 20px 30px;
+    justify-content: center;
     text-align: left;
 }
 
 label {
+    width: 100%;
     font-weight: 600;
     color: #1e40af;
+    margin-top: 10px;
 }
 
-input {
+input,
+select {
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 1rem;
+    box-sizing: border-box;
 }
 
 button {
@@ -42,50 +56,52 @@ button {
     color: white;
     border: none;
     border-radius: 10px;
-    padding: 12px 20px;
+    padding: 14px 24px;
     font-weight: 600;
-    margin-top: 10px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s ease, transform 0.1s ease;
+    margin: 20px auto 0;
+    display: block;
 }
 
 button:hover {
     background: #1e3a8a;
+    transform: translateY(-2px);
 }
 
-.result-box {
-    background: #f0f9ff;
-    border-left: 5px solid #1e3a8a;
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: left;
+.hint {
+    font-size: 0.85rem;
+    color: #6b7280;
 }
 
-.result-box pre {
-    white-space: pre-wrap;
-    font-family: "Inter", sans-serif;
-    color: #333;
+/* ====== RESULTS GRID ====== */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+    align-items: start;
 }
 
-body {
-    background: linear-gradient(to bottom, #f0f7ff, #ffffff);
-    font-family: "Inter", sans-serif;
-}
-
+/* ====== CHART SECTION ====== */
 .chart-container {
-    max-width: 400px;
-    margin: 30px auto;
     background: #ffffff;
     border-radius: 16px;
     padding: 20px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
     text-align: center;
+    transition: all 0.2s ease-in-out;
 }
 
 .chart-container h3 {
     color: #1e3a8a;
     margin-bottom: 15px;
+}
+
+.chart-container canvas {
+    max-width: 260px;
+    max-height: 260px;
+    margin: 0 auto;
 }
 
 .chart-note {
@@ -94,13 +110,42 @@ body {
     margin-top: 10px;
 }
 
+/* ====== BUDGET STRESS BAR ====== */
+.budget-stress {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: left;
+    margin-top: 20px;
+}
+
+.budget-stress p {
+    margin: 0 0 8px;
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+.progress-bar {
+    background: #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 10px;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+/* ====== TAX TABLE ====== */
 .tax-table-container {
-    max-width: 600px;
-    margin: 30px auto;
     background: #fff;
     border-radius: 16px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease-in-out;
 }
 
 .tax-table-container h3 {
@@ -114,13 +159,13 @@ body {
     border-collapse: collapse;
     text-align: right;
     font-size: 0.95rem;
+    word-break: break-word;
 }
 
 .tax-table th {
     background: #f8fafc;
     color: #1e3a8a;
     font-weight: 600;
-    text-align: right;
     padding: 10px;
 }
 
@@ -128,6 +173,7 @@ body {
     border-top: 1px solid #e5e7eb;
     padding: 8px 10px;
     color: #333;
+    font-variant-numeric: tabular-nums;
 }
 
 .tax-table td:first-child,
@@ -140,42 +186,102 @@ body {
     font-weight: 700;
 }
 
-
-/* ========== AI SUMMARY SECTION ========== */
+/* ====== AI SUMMARY (Redesigned) ====== */
 .ai-summary {
-    max-width: 650px;
-    margin: 30px auto;
-    background: linear-gradient(135deg, #eef2ff, #f9fafb);
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    padding: 25px 30px;
-    text-align: left;
+    background: #f9fafb;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 25px;
     animation: fadeIn 0.6s ease;
+    transition: all 0.2s ease-in-out;
 }
 
 .summary-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #1e3a8a;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #c7d2fe;
-    padding-bottom: 5px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.summary-content {
-    background: #fff;
+/* Sections inside summary */
+.summary-section,
+.tips-section,
+.disclaimer-section {
+    background: white;
     border-radius: 12px;
-    padding: 20px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.summary-text {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #374151;
-    white-space: pre-wrap;
+.summary-section h4,
+.tips-section h4 {
+    color: #1e3a8a;
+    margin-bottom: 10px;
 }
 
+/* ====== AI TIPS FIXED CARDS ====== */
+.tips-section ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+}
+
+.tips-section li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 15px 18px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tips-section li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tip-text {
+    color: #374151;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.goal-btn {
+    align-self: flex-end;
+    background: #3b82f6;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+}
+
+.goal-btn:hover {
+    background: #2563eb;
+}
+
+/* ====== DISCLAIMER CARD ====== */
+.disclaimer-section {
+    background: #fef9c3;
+    border-left: 5px solid #f59e0b;
+    color: #78350f;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Highlighted text inside AI Summary */
 .money {
     color: #059669;
     font-weight: 600;
@@ -186,29 +292,73 @@ body {
     font-weight: 600;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.chart-container,
-.tax-table-container,
-.ai-summary {
-    margin-top: 40px;
+/* ====== FOOD ALERT (Zero Hunger) ====== */
+.food-alert {
+    background: #fef3c7;
+    border-left: 6px solid #f59e0b;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
     animation: fadeIn 0.6s ease;
+    transition: all 0.2s ease-in-out;
 }
 
-.ai-summary {
-    margin-bottom: 60px;
+.food-alert h4 {
+    margin-top: 0;
+    color: #92400e;
+    font-weight: 700;
 }
 
+.food-alert p {
+    color: #5b3410;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.food-alert ul {
+    margin: 10px 0 10px 15px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.food-alert li {
+    margin-bottom: 8px;
+}
+
+.food-alert a {
+    color: #92400e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.food-alert a:hover {
+    text-decoration: underline;
+}
+
+.food-note {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #78350f;
+    font-style: italic;
+}
+
+/* ====== SECTION DIVIDER ====== */
+.section-divider {
+    width: 90%;
+    height: 1px;
+    background: #e5e7eb;
+    margin: 40px auto;
+}
+
+/* ====== HOVER ELEVATION ====== */
+.chart-container:hover,
+.tax-table-container:hover,
+.ai-summary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== ANIMATIONS ====== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -218,5 +368,28 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ====== RESPONSIVENESS ====== */
+@media (max-width: 800px) {
+    .intake-container {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-section,
+    .tips-section,
+    .disclaimer-section {
+        padding: 12px;
+    }
+
+    .goal-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
     }
 }

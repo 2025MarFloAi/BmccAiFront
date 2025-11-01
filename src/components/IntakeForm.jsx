@@ -1,7 +1,7 @@
+import React, { useState, useEffect } from "react";
 import React, { useState } from "react";
 import { API_URL } from "../shared";
 import "./IntakeForm.css";
-
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -11,6 +11,8 @@ const IntakeForm = () => {
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
+
 
     const [formData, setFormData] = useState({
         hasJob: "",
@@ -23,6 +25,25 @@ const IntakeForm = () => {
         goal: "",
     });
 
+    /* 🧩 Add this useEffect below */
+    useEffect(() => {
+        const handleGoalClick = (e) => {
+            if (e.target.classList.contains("goal-btn")) {
+                const tip = e.target.parentElement.textContent
+                    .replace("+ Add to Goals", "")
+                    .trim();
+                alert(`Goal added: "${tip}"`);
+            }
+        };
+
+        document.addEventListener("click", handleGoalClick);
+
+        // Clean up when component unmounts
+        return () => {
+            document.removeEventListener("click", handleGoalClick);
+        };
+    }, []);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -32,13 +53,11 @@ const IntakeForm = () => {
         const gross = parseFloat(formData.grossIncome) || 0;
         if (!gross) return null;
 
-        // Base rates (NY)
+        // Base NY rates
         let federalRate = 0.17;
         const ficaRate = 0.0765;
         const stateRate = 0.053;
         const localRate = 0.0359;
-
-        // Adjust slightly for married filers
         if (formData.maritalStatus === "married") federalRate -= 0.02;
 
         const federal = gross * federalRate;
@@ -48,7 +67,6 @@ const IntakeForm = () => {
         const totalTax = federal + fica + state + local;
         const effectiveRate = ((totalTax / gross) * 100).toFixed(2);
         const netAfterTax = gross - totalTax;
-
         return { federal, fica, state, local, totalTax, effectiveRate, netAfterTax };
     };
 
@@ -75,6 +93,7 @@ const IntakeForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setSubmitted(true);
 
         try {
             const prompt = `
@@ -88,9 +107,18 @@ A student reported these financial details:
 - Savings: $${formData.savings}
 - Main goal: ${formData.goal}
 
-Provide an educational summary explaining how marital status can affect taxes, take-home pay, and financial planning.
-If net income is blank, estimate take-home pay (85–90% of gross) and use that for guidance.
-Then, generate 3 personalized budgeting tips and end with an educational disclaimer.
+Please return your answer in this format:
+
+SUMMARY:
+(A one-sentence key takeaway)
+
+TIPS:
+1. (First practical tip)
+2. (Second practical tip)
+3. (Third practical tip)
+
+DISCLAIMER:
+(One short line about this being educational)
 `;
 
             const res = await fetch(`${API_URL}/api/chat`, {
@@ -112,27 +140,72 @@ Then, generate 3 personalized budgeting tips and end with an educational disclai
     };
 
     const formatResultText = (text) => {
-        return text
+        if (!text) return "";
+
+        const summaryMatch = text.match(/SUMMARY:(.*?)(?=TIPS:|DISCLAIMER:|$)/is);
+        const tipsMatch = text.match(/TIPS:(.*?)(?=DISCLAIMER:|$)/is);
+        const disclaimerMatch = text.match(/DISCLAIMER:(.*)$/is);
+
+        const summary = summaryMatch ? summaryMatch[1].trim() : "";
+        const tips = tipsMatch
+            ? tipsMatch[1]
+                .trim()
+                .split(/\d+\.\s*/)
+                .filter((tip) => tip.length > 0)
+            : [];
+        const disclaimer = disclaimerMatch ? disclaimerMatch[1].trim() : "";
+
+        let html = "";
+
+        if (summary) {
+            html += `
+      <div class="summary-section">
+        <h4>📊 Summary</h4>
+        <p>${summary}</p>
+      </div>`;
+        }
+
+        if (tips.length > 0) {
+            html += `
+      <div class="tips-section">
+        <h4>💡 AI Tips</h4>
+        <ul>
+          ${tips
+                    .map(
+                        (t) => `
+              <li>
+                <span class="tip-text">${t}</span>
+                <button class="goal-btn">+ Add to Goals</button>
+              </li>`
+                    )
+                    .join("")}
+        </ul>
+      </div>`;
+        }
+
+        if (disclaimer) {
+            html += `
+      <div class="disclaimer-section">
+        <p>⚠️ ${disclaimer}</p>
+      </div>`;
+        }
+
+        return html
             .replace(/(\$[0-9,]+)/g, "<span class='money'>$1</span>")
             .replace(/(save|saving|saved)/gi, "<span class='highlight'>$1</span>");
     };
 
+
+
+
     return (
         <div className="intake-container">
             <h2>Financial Intake Form</h2>
-            <p>
-                Answer a few quick questions to receive a personalized educational
-                summary.
-            </p>
+            <p>Answer a few quick questions to receive a personalized educational summary.</p>
 
             <form onSubmit={handleSubmit}>
                 <label>Do you currently have a job?</label>
-                <select
-                    name="hasJob"
-                    value={formData.hasJob}
-                    onChange={handleChange}
-                    required
-                >
+                <select name="hasJob" value={formData.hasJob} onChange={handleChange} required>
                     <option value="">-- Select --</option>
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
@@ -159,21 +232,22 @@ Then, generate 3 personalized budgeting tips and end with an educational disclai
                             placeholder="e.g. 2000"
                             value={formData.grossIncome}
                             onChange={handleChange}
+                            required
                         />
 
                         <label>Net Monthly Income (after taxes):</label>
                         <input
                             type="number"
                             name="netIncome"
-                            placeholder="e.g. 1800"
+                            placeholder="(Optional) e.g. 1800"
                             value={formData.netIncome}
                             onChange={handleChange}
                         />
 
                         <small className="hint">
-                            If unsure, your take-home pay is usually 85–90% of your gross pay
-                            after taxes and deductions.
+                            If unsure, leave this blank. We’ll estimate your take-home pay at 85–90% of your gross.
                         </small>
+
                     </>
                 )}
 
@@ -222,14 +296,42 @@ Then, generate 3 personalized budgeting tips and end with an educational disclai
 
             {/* Chart Section */}
             {chartData && (
-                <div className="chart-container">
-                    <h3>Your Financial Breakdown</h3>
-                    <Pie data={chartData} />
-                    <p className="chart-note">
-                        * Taxes are estimated based on gross vs. net income (approx. 10–15%
-                        deduction if unspecified).
-                    </p>
-                </div>
+                <>
+                    <div className="chart-container">
+                        <h3>Your Financial Breakdown</h3>
+                        <Pie data={chartData} />
+                        <p className="chart-note">
+                            * Taxes are estimated based on gross vs. net income (approx. 10–15% deduction if unspecified).
+                        </p>
+                    </div>
+
+                    {/* Budget Stress Level */}
+                    {(() => {
+                        const gross = parseFloat(formData.grossIncome) || 0;
+                        const net = parseFloat(formData.netIncome) || gross * 0.87;
+                        const expenses = parseFloat(formData.expenses) || 0;
+                        const stressLevel = Math.min(100, Math.round((expenses / net) * 100));
+                        return (
+                            <div className="budget-stress">
+                                <p>Budget Stress Level: {stressLevel}%</p>
+                                <div className="progress-bar">
+                                    <div
+                                        className="progress"
+                                        style={{
+                                            width: `${stressLevel}%`,
+                                            backgroundColor:
+                                                stressLevel < 60
+                                                    ? "#22c55e"
+                                                    : stressLevel < 85
+                                                        ? "#facc15"
+                                                        : "#ef4444",
+                                        }}
+                                    ></div>
+                                </div>
+                            </div>
+                        );
+                    })()}
+                </>
             )}
 
             {/* Tax Breakdown Section */}
@@ -239,7 +341,6 @@ Then, generate 3 personalized budgeting tips and end with an educational disclai
                         Your Income Taxes Breakdown (
                         {formData.maritalStatus === "married" ? "Married Filer" : "Single Filer"})
                     </h3>
-
                     <table className="tax-table">
                         <thead>
                             <tr>
@@ -284,7 +385,7 @@ Then, generate 3 personalized budgeting tips and end with an educational disclai
                 </div>
             )}
 
-            {/* AI Summary Section (bottom) */}
+            {/* AI Summary Section */}
             {result && (
                 <div className="ai-summary">
                     <h3 className="summary-title">💡 AI Financial Summary</h3>
@@ -296,6 +397,70 @@ Then, generate 3 personalized budgeting tips and end with an educational disclai
                     </div>
                 </div>
             )}
+
+            {/* Food Assistance Section */}
+            {submitted && (() => {
+                const gross = parseFloat(formData.grossIncome) || 0;
+                const net = parseFloat(formData.netIncome) || gross * 0.87;
+                const expenses = parseFloat(formData.expenses) || 0;
+                const savings = parseFloat(formData.savings) || 0;
+                const hasJob = formData.hasJob === "yes";
+
+                const lowIncome = gross > 0 && gross < 1500;
+                const highExpenses = net > 0 && expenses >= net * 0.75;
+                const noSavings = savings <= 50;
+                const unemployed = !hasJob;
+
+                // Show only if one or more red flags are true
+                if (lowIncome || highExpenses || noSavings || unemployed) {
+                    return (
+                        <div className="food-alert">
+                            <h4>🍎 Food Assistance Resources</h4>
+                            <p>
+                                Based on your responses, it seems your budget may leave limited room for food or essentials.
+                                If you ever find yourself struggling to afford meals, these programs can help:
+                            </p>
+                            <ul>
+                                <li>
+                                    <a
+                                        href="https://www.bmcc.cuny.edu/student-affairs/panther-pantry/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        🏫 BMCC Panther Pantry
+                                    </a>{" "}
+                                    — Free groceries and essential items for BMCC students.
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.foodbanknyc.org/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        🥫 Food Bank for New York City
+                                    </a>{" "}
+                                    — Find nearby food pantries and soup kitchens across NYC.
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://www.nyc.gov/site/doh/services/food-assistance.page"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        🗽 NYC Food Assistance Programs
+                                    </a>{" "}
+                                    — City programs that provide meals and grocery support.
+                                </li>
+                            </ul>
+                            <p className="food-note">
+                                💡 *You’re not alone — many students use these programs while working toward financial stability.*
+                            </p>
+                        </div>
+                    );
+                }
+                return null;
+            })()}
+
         </div>
     );
 };
