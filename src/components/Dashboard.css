@@ -1,0 +1,87 @@
+.dashboard {
+    max-width: 1000px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.subtitle {
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.dashboard-grid {
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.dashboard-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.progress-bar {
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 10px;
+    margin-top: 10px;
+}
+
+.progress {
+    background: #3b82f6;
+    height: 10px;
+    border-radius: 10px;
+}
+
+.goal-status {
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-top: 5px;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.color.taxes {
+    background: #ef4444;
+}
+
+.color.expenses {
+    background: #3b82f6;
+}
+
+.color.savings {
+    background: #22c55e;
+}
+
+.color.remaining {
+    background: #facc15;
+}
+
+.ai-tip {
+    font-style: italic;
+    color: #374151;
+    line-height: 1.6;
+}

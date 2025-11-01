@@ -72,3 +72,151 @@ body {
     background: linear-gradient(to bottom, #f0f7ff, #ffffff);
     font-family: "Inter", sans-serif;
 }
+
+.chart-container {
+    max-width: 400px;
+    margin: 30px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.chart-container h3 {
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+
+.chart-note {
+    font-size: 0.8rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.tax-table-container {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.tax-table-container h3 {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+
+.tax-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+    font-size: 0.95rem;
+}
+
+.tax-table th {
+    background: #f8fafc;
+    color: #1e3a8a;
+    font-weight: 600;
+    text-align: right;
+    padding: 10px;
+}
+
+.tax-table td {
+    border-top: 1px solid #e5e7eb;
+    padding: 8px 10px;
+    color: #333;
+}
+
+.tax-table td:first-child,
+.tax-table th:first-child {
+    text-align: left;
+}
+
+.tax-table .highlight td {
+    color: #059669;
+    font-weight: 700;
+}
+
+
+/* ========== AI SUMMARY SECTION ========== */
+.ai-summary {
+    max-width: 650px;
+    margin: 30px auto;
+    background: linear-gradient(135deg, #eef2ff, #f9fafb);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 25px 30px;
+    text-align: left;
+    animation: fadeIn 0.6s ease;
+}
+
+.summary-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #c7d2fe;
+    padding-bottom: 5px;
+}
+
+.summary-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.summary-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #374151;
+    white-space: pre-wrap;
+}
+
+.money {
+    color: #059669;
+    font-weight: 600;
+}
+
+.highlight {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chart-container,
+.tax-table-container,
+.ai-summary {
+    margin-top: 40px;
+    animation: fadeIn 0.6s ease;
+}
+
+.ai-summary {
+    margin-bottom: 60px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

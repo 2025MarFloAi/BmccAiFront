@@ -8,6 +8,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
+import Dashboard from "./components/Dashboard";
+
 import IntakeForm from "./components/IntakeForm";
 import ChatWidget from "./components/ChatWidget";
 import { Link } from "react-router-dom";
@@ -71,6 +73,8 @@ const App = () => {
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
           <Route path="/intake" element={<IntakeForm />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
