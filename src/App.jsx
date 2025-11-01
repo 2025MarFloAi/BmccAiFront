@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import axios from "axios";
 import "./AppStyles.css";
-import NavBar from "./components/NavBar";
+// import NavBar from "./components/NavBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
+import IntakeForm from "./components/IntakeForm";
+import { Link } from "react-router-dom";
+
+
 import { API_URL, SOCKETS_URL, NODE_ENV } from "./shared";
 import { io } from "socket.io-client";
 
@@ -59,12 +63,13 @@ const App = () => {
 
   return (
     <div>
-      <NavBar user={user} onLogout={handleLogout} />
+      {/* <NavBar user={user} onLogout={handleLogout} /> */}
       <div className="app">
         <Routes>
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
+          <Route path="/intake" element={<IntakeForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
