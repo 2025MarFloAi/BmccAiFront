@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../shared";
 import "./IntakeForm.css";
 
 import { Pie } from "react-chartjs-2";
@@ -92,7 +93,7 @@ If net income is blank, estimate take-home pay (85–90% of gross) and use that 
 Then, generate 3 personalized budgeting tips and end with an educational disclaimer.
 `;
 
-            const res = await fetch("http://localhost:8080/api/chat", {
+            const res = await fetch(`${API_URL}/api/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt }),
