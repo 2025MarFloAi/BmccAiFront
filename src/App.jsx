@@ -11,6 +11,7 @@ import NotFound from "./components/NotFound";
 import Dashboard from "./components/Dashboard";
 
 import IntakeForm from "./components/IntakeForm";
+import ChatWidget from "./components/ChatWidget";
 import { Link } from "react-router-dom";
 
 
@@ -77,6 +78,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      <ChatWidget />
     </div>
   );
 };
